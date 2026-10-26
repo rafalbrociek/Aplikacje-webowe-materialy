@@ -1,0 +1,29 @@
+.page {
+  width: min(900px, 90%);
+  margin: 40px auto;
+}
+
+.person-card {
+  margin-bottom: 20px;
+  padding: 20px;
+  border: 1px solid #d0d7de;
+  border-radius: 10px;
+  background-color: white;
+}
+
+.person-card h2 {
+  margin-top: 0;
+}
+
+.person-card button {
+  padding: 8px 14px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.biography {
+  margin-top: 16px;
+  padding: 12px;
+  background-color: #f4f6f8;
+  border-radius: 6px;
+}

@@ -1,0 +1,52 @@
+.page {
+  width: min(1100px, 92%);
+  margin: 40px auto;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+
+.person-card,
+.person-details,
+.person-form {
+  margin-bottom: 18px;
+  padding: 18px;
+  border: 1px solid #d0d7de;
+  border-radius: 8px;
+  background-color: white;
+}
+
+.person-form {
+  display: grid;
+  gap: 14px;
+}
+
+.person-form label {
+  display: grid;
+  gap: 5px;
+}
+
+.person-form input,
+.person-form textarea {
+  padding: 8px;
+  font: inherit;
+}
+
+.person-form textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+button {
+  padding: 8px 14px;
+  cursor: pointer;
+}
+
+@media (max-width: 750px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "cars": [
+    {
+      "id": "1",
+      "brand": "Toyota",
+      "model": "Corolla",
+      "productionYear": 2022,
+      "fuelType": "Hybrid"
+    },
+    {
+      "id": "2",
+      "brand": "Skoda",
+      "model": "Octavia",
+      "productionYear": 2021,
+      "fuelType": "Petrol"
+    },
+    {
+      "id": "3",
+      "brand": "Volvo",
+      "model": "XC60",
+      "productionYear": 2023,
+      "fuelType": "Diesel"
+    }
+  ]
+}
