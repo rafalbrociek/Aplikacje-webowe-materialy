@@ -1,97 +1,76 @@
-﻿using Cars.Domain;
-using Cars.Infrastructure;
+﻿using Cars.Application.Cars;
+using Cars.Domain;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Cars.API.Controllers;
 
 public class CarsController : BaseApiController
-
 {
-    private readonly DataContext _context;
+    // ISender pochodzi z MediatR i pozwala wysyłać żądania
+    private readonly ISender _sender;
 
-    public CarsController(DataContext context)
+    public CarsController(ISender sender)
     {
-        _context = context;
+        _sender = sender;
     }
 
-
-    // Pobranie wszystkich aut
     [HttpGet]
     public async Task<ActionResult<List<Car>>> GetCars()
     {
-        return await _context.Cars.AsNoTracking().ToListAsync();
+        return await _sender.Send(new GetCarsList.Query());
     }
 
-
-
-    // Pobranie wybranego auta
     [HttpGet("{id:guid}")]
     public async Task<ActionResult<Car>> GetCar(Guid id)
     {
-        var car = await _context.Cars.AsNoTracking()
-      .FirstOrDefaultAsync(x => x.Id == id);
-
-        if (car is null) return NotFound();
-
-        return Ok(car);
-    }
-
-    // Dodanie nowego auta
-    [HttpPost]
-    public async Task<ActionResult<Car>> CreateCar(Car car)
-    {
-        _context.Cars.Add(car);
-
-        await _context.SaveChangesAsync();
-
-        // zwraca 201 Created oraz obiekt dodanego auta
-        return CreatedAtAction(
-            nameof(GetCar),
-            new { id = car.Id },
-            car);
-    }
-
-    // Aktualizacja wybranego auta
-    [HttpPut("{id:guid}")]
-    public async Task<IActionResult> UpdateCar(Guid id, Car car)
-    {
-        var existingCar = await _context.Cars.FindAsync(id);
-
-        if (existingCar is null)
-        {
-            return NotFound();
-        }
-
-        existingCar.Brand = car.Brand;
-        existingCar.Model = car.Model;
-        existingCar.DoorsNumber = car.DoorsNumber;
-        existingCar.LuggageCapacity = car.LuggageCapacity;
-        existingCar.EngineCapacity = car.EngineCapacity;
-        existingCar.FuelType = car.FuelType;
-        existingCar.ProductionDate = car.ProductionDate;
-        existingCar.AverageFuelConsumption = car.AverageFuelConsumption;
-        existingCar.BodyType = car.BodyType;
-
-        await _context.SaveChangesAsync();
-
-        return NoContent();
-    }
-
-    // Usunięcie wybranego auta
-    [HttpDelete("{id:guid}")]
-    public async Task<IActionResult> DeleteCar(Guid id)
-    {
-        var car = await _context.Cars.FindAsync(id);
+        var car = await _sender.Send(new Details.Query { Id = id });
 
         if (car is null)
         {
             return NotFound();
         }
 
-        _context.Cars.Remove(car);
+        return Ok(car);
+    }
 
-        await _context.SaveChangesAsync();
+    [HttpPost]
+    public async Task<ActionResult<Car>> CreateCar(Car car)
+    {
+        var result = await _sender.Send(new Create.Command { Car = car });
+
+        return CreatedAtAction(
+            nameof(GetCar),
+            new { id = result.Id },
+            result);
+    }
+
+    [HttpPut("{id:guid}")]
+    public async Task<IActionResult> UpdateCar(Guid id, Car car)
+    {
+        var result = await _sender.Send(new Edit.Command
+        {
+            Id = id,
+            Car = car
+        });
+
+        if (!result)
+        {
+            return NotFound();
+        }
+
+        return NoContent();
+    }
+
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> DeleteCar(Guid id)
+    {
+        var result = await _sender.Send(new Delete.Command { Id = id });
+
+        if (!result)
+        {
+            return NotFound();
+        }
 
         return NoContent();
     }
