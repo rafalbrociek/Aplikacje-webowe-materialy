@@ -1,0 +1,28 @@
+# Visual Studio / .NET
+.vs/
+**/bin/
+**/obj/
+*.user
+*.suo
+
+# React / Node.js
+**/node_modules/
+**/dist/
+**/coverage/
+
+# Pliki lokalne i poufne
+.env
+.env.*
+!.env.example
+**/appsettings.Development.json
+**/appsettings.Local.json
+**/secrets.json
+
+# Lokalne bazy danych
+*.db
+*.sqlite
+*.sqlite3
+
+# System
+.DS_Store
+Thumbs.db
