@@ -32,6 +32,17 @@ Aplikacje webowe i sieciowe.
 | backend-v2.0 | MediatR + FluentValidation |
 
 
+## Przykłady React
+
+| Wersja | Opis |
+|---|---|
+| 1 | Tworzenie komponentu i przekazywanie właściowści |
+| 2 | Drzewo komponentów, props i callback |
+| 3 | Komunikacja z jsonserver przez użycie fetch |
+| 4 | Nawigacja po aplikacji przy użyciu react-router |
+| 5 | Aplikacja waluty (przykład łączenia przy użyciu Axios i magazyn stanu Zustand) |
+
+
 ## Uruchamianie
 
 Szczegółowe instrukcje znajdują się
